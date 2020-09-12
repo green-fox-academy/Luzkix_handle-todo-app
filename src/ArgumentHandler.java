@@ -6,7 +6,9 @@ public class ArgumentHandler {
     if (args.length == 0) {
       printUsage();
     } else if (args[0].equals("-l") ) {
-      fileHandler.readContent();
+      if (fileHandler.isEmpty()) {
+        System.out.println("No todos for today! :)");
+      } else fileHandler.readContent();
 
     }
 
