@@ -1,10 +1,10 @@
 public class ToDo {
   public static void main(String[] args) {
 
-    //String[]testArgs = {"-a", "test"};
+    String[]testArgs = {"-l"};
     ArgumentHandler argumentHandler = new ArgumentHandler();
-    //argumentHandler.checkArgument(testArgs);
-    argumentHandler.checkArgument(args);
+    argumentHandler.checkArgument(testArgs);
+    //argumentHandler.checkArgument(args);
 
   }
 }

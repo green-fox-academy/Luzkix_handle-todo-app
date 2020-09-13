@@ -41,29 +41,45 @@ public class FileHandler {
         //Arrays.asList(argument);
         Files.write(contentPath, argument, StandardOpenOption.APPEND);
 
-      } catch (Exception e) {
+      } catch (IOException e) {
         System.out.println("File with ToDo content is not accessable for changes");
       }
     }
   }
 
   public void removeContentFromFile(String[] args) {
+    int numberOfLines = getNumberOfLines();
     if (args.length < 2) {
-      System.out.println("You must specify index of task to be removed!");
+      throw new NullPointerException("Unable to remove: no index provided!");
+    } else if (!argIsInteger(args[1])) {
+    } else if (indexOfArgument(args) > numberOfLines) {
+      System.out.println("Index of the task to be deleted '" + indexOfArgument(args) +
+          "' does not exist! Index is out of bound.");
     } else {
-      int indexOfArgument = Integer.parseInt(args[1]);
-      int numberOfLines = getNumberOfLines();
-      if (Integer.parseInt(args[1]) > numberOfLines) {
+      try {
+        removeTask(contentPath, indexOfArgument(args));
+      } catch (Exception e) {
         System.out
-            .println("Index of the task to be deleted '" + indexOfArgument + "' does not exist!");
-      } else {
-        try {
-          removeTask(contentPath, indexOfArgument);
-        } catch (Exception e) {
-          System.out.println("Something just went wrong, probably index of task to be removed is < 1");
-        }
+            .println("Something just went wrong, probably index of task to be removed is < 1");
       }
     }
+
+  }
+
+  private boolean argIsInteger(String arg) {
+    try {
+      Integer.parseInt(arg);
+      return true;
+    } catch (Exception e) {
+      System.out.println("Unable to remove, remove index '" + arg + "' is not a number!");
+      return false;
+    }
+  }
+
+
+  private int indexOfArgument(String[] args) {
+    int index = Integer.parseInt(args[1]);
+    return index;
   }
 
   private void removeTask(Path contentPath, int indexOfArgument) throws IOException {
