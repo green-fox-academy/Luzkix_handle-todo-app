@@ -9,8 +9,10 @@ public class ArgumentHandler {
       if (fileHandler.isEmpty()) {
         System.out.println("No todos for today! :)");
       } else fileHandler.readContent();
-    } else if (args[0].equals("-a") && args.length == 2) {
+    } else if (args[0].equals("-a")) {
       fileHandler.addContent(args);
+    } else if (args[0].equals("-r")) {
+      fileHandler.removeContentFromFile(args);
     }
 
   }
