@@ -8,13 +8,18 @@ import java.util.List;
 
 public class FileHandler {
 
-  Path contentPath = Paths.get("src/content.txt");
+  Path contentPath = Paths.get("src/Files/content.txt");
 
   public void readContent() {
     try {
       List<String> lines = Files.readAllLines(contentPath);
       for (int i = 0; i < lines.size(); i++) {
-        System.out.println((i + 1) + " - " + lines.get(i));
+        if (lines.get(i).startsWith("*")) {
+          String adjustedLine = lines.get(i).substring(1); // will exclude 1st char, which is *
+          System.out.println((i + 1) + " - [x] " + adjustedLine);
+        } else {
+          System.out.println((i + 1) + " - [ ] " + lines.get(i));
+        }
       }
 
     } catch (Exception e) {
@@ -119,8 +124,13 @@ public class FileHandler {
   private void updateTaskWithCheck(Path contentPath, int indexOfArgument) throws IOException {
     List<String> contentList = Files.readAllLines(contentPath);
     String task = contentList.get(indexOfArgument - 1);
-    contentList.set(indexOfArgument-1, "*" + task);
-    Files.write(contentPath, contentList);
+    if (task.startsWith("*")) {
+      System.out.println("The task is already checked as completed!");
+    } else {
+      contentList.set(indexOfArgument-1, "*" + task);
+      Files.write(contentPath, contentList);
+      System.out.println("The task " + (indexOfArgument - 1) + " was checked as completed." );
+    }
   }
 
 }
