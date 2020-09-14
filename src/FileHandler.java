@@ -8,7 +8,7 @@ import java.util.List;
 
 public class FileHandler {
 
-  Path contentPath = Paths.get("Files/content.txt");
+  Path contentPath = Paths.get("src/content.txt");
 
   public void readContent() {
     try {
@@ -97,4 +97,30 @@ public class FileHandler {
       return 0;
     }
   }
+
+  public void checkTheTask(String[] args) {
+    int numberOfLines = getNumberOfLines();
+    if (args.length < 2) {
+      throw new NullPointerException("Unable to check task: no index provided!");
+    } else if (!argIsInteger(args[1])) {
+    } else if (indexOfArgument(args) > numberOfLines) {
+      System.out.println("Index of the task to be checked '" + indexOfArgument(args) +
+          "' does not exist! The index is out of bound.");
+    } else {
+      try {
+        updateTaskWithCheck(contentPath, indexOfArgument(args));
+      } catch (Exception e) {
+        System.out
+            .println("Something just went wrong, probably index of task to be checked is < 1");
+      }
+    }
+  }
+
+  private void updateTaskWithCheck(Path contentPath, int indexOfArgument) throws IOException {
+    List<String> contentList = Files.readAllLines(contentPath);
+    String task = contentList.get(indexOfArgument - 1);
+    contentList.set(indexOfArgument-1, "*" + task);
+    Files.write(contentPath, contentList);
+  }
+
 }

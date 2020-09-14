@@ -13,7 +13,10 @@ public class ArgumentHandler {
       fileHandler.addContent(args);
     } else if (args[0].equals("-r")) {
       fileHandler.removeContentFromFile(args);
-    } else {
+    } else if (args[0].equals("-c")) {
+      fileHandler.checkTheTask(args);
+    }
+    else {
       System.out.println("Unsupported argument!\n");
       printUsage();
     }
